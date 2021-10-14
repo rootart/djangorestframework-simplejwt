@@ -16,6 +16,23 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get install -y gettext
+
+      - name: Get pip cache dir
+        id: pip-cache
+        run: |
+          echo "::set-output name=dir::$(pip cache dir)"
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.pip-cache.outputs.dir }}
+          key:
+            3.9-v1-${{ hashFiles('**/setup.py') }}
+          restore-keys: |
+            3.9-v1-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -31,3 +48,4 @@ jobs:
           base: master
           branch: i18n-auto-update
           delete-branch: true
+          push-to-fork: rootart/djangorestframework-simplejwt
