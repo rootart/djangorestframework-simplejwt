@@ -49,4 +49,5 @@ jobs:
           branch: i18n-auto-update
           delete-branch: true
           commit-message: Generate .po for the state of master branch
+          title: Update translation files
 
