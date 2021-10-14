@@ -48,4 +48,3 @@ jobs:
           base: master
           branch: i18n-auto-update
           delete-branch: true
-          push-to-fork: rootart/djangorestframework-simplejwt
