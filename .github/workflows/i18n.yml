@@ -1,0 +1,36 @@
+name: Autogenerate translation files
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+
+      - name: Install django 
+        run: pip install django
+
+      - name: Run makemessages
+        working-directory: ./rest_framework_simplejwt
+        run: django-admin makemessages
+
+      - name: Create PR with updated locales
+        uses: peter-evans/create-pull-request@v3
+        with:
+          base: master
+          branch: i18n-auto-update
+          delete-branch: true
